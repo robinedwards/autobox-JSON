@@ -9,9 +9,9 @@ sub import {
     my ($class) = @_;
 
     $class->SUPER::import(
-        HASH => 'JSON',
-        ARRAY => 'JSON',
-        STRING => 'JSON',
+        HASH => 'autobox::JSON::Ref',
+        ARRAY => 'autobox::JSON::Ref',
+        STRING => 'autobox::JSON::String',
     );
 }
 
@@ -67,9 +67,9 @@ at your option, any later version of Perl 5 you may have available.
 
 package autobox::JSON::String;
 require JSON;
-sub from_json { json::from_json(shift); }
+sub from_json { JSON::from_json(shift); }
 
-package autobox::JSON::String;
+package autobox::JSON::Ref;
 require JSON;
 sub to_json { JSON::to_json(shift); }
 
