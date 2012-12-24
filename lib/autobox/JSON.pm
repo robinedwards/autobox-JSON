@@ -23,27 +23,41 @@ autobox::JSON - bringing JSON functions to autobox
 
     use autobox::JSON;
 
-    say {name => 'Jim', age => 34}->to_json;
+    say {name => 'Jim', age => 34}->encode_json;
     # {"name":"Jim","age":46}
     
-    my $person = '{"name":"Jim","age":46}'->from_json
+    my $person = '{"name":"Jim","age":46}'->decode_json
     # {name => 'Jim', age => 34}
 
-    my $serialized_person = $person->to_json;
+    my $serialized_person = $person->encode_json;
     # {"name":"Jim","age":46}
     
     # works on arrays too
-    [1, 2, 3, 4, 5]->to_json;
+    [1, 2, 3, 4, 5]->encode_json;
 
 =head1 METHODS
 
-=head2 to_json 
+=head2 encode_json
 
-This method behaves the same as the function defined in C<JSON>.
+This method behaves the same as L<JSON/encode_json>.
 
-=head2 from_json
+=head2 decode_json
 
-This method behaves the as the function defined in C<JSON>. 
+This method behaves the same as L<JSON/decode_json>.
+
+=head2 to_json (depreciated)
+
+This method behaves the same as L<JSON/to_json>.
+
+This method is depreciated because the JSON documentation itself
+prefers encode_json.
+
+=head2 from_json (depreciated)
+
+This method behaves the same as L<JSON/from_json>.
+
+This method is depreciated as the JSON documentation itself
+prefers decode_json.
 
 =head1 SEE ALSO
 
@@ -68,9 +82,11 @@ at your option, any later version of Perl 5 you may have available.
 package autobox::JSON::String;
 require JSON;
 sub from_json { JSON::from_json(shift); }
+sub decode_json { JSON::decode_json(shift); }
 
 package autobox::JSON::Ref;
 require JSON;
 sub to_json { JSON::to_json(shift); }
+sub encode_json { JSON::encode_json(shift); }
 
 1;
