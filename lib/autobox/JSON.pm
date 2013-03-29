@@ -41,6 +41,17 @@ autobox::JSON - bringing JSON functions to autobox
 
 This method behaves the same as L<JSON/encode_json>.
 
+=head2 encode_json_pretty
+
+This method is identical to L</encode_json>, except that it also "prettifies"
+the output, making it easier for us mortals to read.  This is useful
+especially when dumping a JSON structure to something reasonable for, say,
+debug or other purposes.
+
+It is functionally the same as:
+
+    JSON->new->utf8->pretty->encode($ref)
+
 =head2 decode_json
 
 This method behaves the same as L<JSON/decode_json>.
@@ -88,5 +99,6 @@ package autobox::JSON::Ref;
 require JSON;
 sub to_json { JSON::to_json(shift); }
 sub encode_json { JSON::encode_json(shift); }
+sub encode_json_pretty { JSON->new->utf8->pretty->encode(shift); }
 
 1;

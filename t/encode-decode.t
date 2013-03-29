@@ -8,7 +8,14 @@ is {name => 'Jim', age => 46}->encode_json, '{"name":"Jim","age":46}', "hash to 
 
 my $hash = { name => 'Jim', age => 46};
 
-is $hash->encode_json,, '{"name":"Jim","age":46}', "hash to json";
+is $hash->encode_json, '{"name":"Jim","age":46}', "hash to json";
+
+is $hash->encode_json_pretty,
+'{
+   "name" : "Jim",
+   "age" : 46
+}
+', "hash to pretty json";
 
 is [1,2,3,4]->encode_json, '[1,2,3,4]', "array to json";
 
