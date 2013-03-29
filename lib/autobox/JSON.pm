@@ -25,13 +25,13 @@ autobox::JSON - bringing JSON functions to autobox
 
     say {name => 'Jim', age => 34}->encode_json;
     # {"name":"Jim","age":46}
-    
+
     my $person = '{"name":"Jim","age":46}'->decode_json
     # {name => 'Jim', age => 34}
 
     my $serialized_person = $person->encode_json;
     # {"name":"Jim","age":46}
-    
+
     # works on arrays too
     [1, 2, 3, 4, 5]->encode_json;
 
