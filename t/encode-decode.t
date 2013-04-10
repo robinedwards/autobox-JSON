@@ -10,12 +10,22 @@ my $hash = { name => 'Jim', age => 46};
 
 is $hash->encode_json, '{"name":"Jim","age":46}', "hash to json";
 
-is $hash->encode_json_pretty,
+my $pretty = $hash->encode_json_pretty;
+ok
+    $pretty eq
 '{
    "name" : "Jim",
    "age" : 46
 }
-', "hash to pretty json";
+'
+    ||
+    $pretty eq
+'{
+   "age" : 46,
+   "name" : "Jim"
+}
+'
+, "hash to pretty json";
 
 is [1,2,3,4]->encode_json, '[1,2,3,4]', "array to json";
 
