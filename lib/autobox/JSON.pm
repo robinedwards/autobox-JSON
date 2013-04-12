@@ -50,11 +50,13 @@ debug or other purposes.
 
 It is functionally the same as:
 
-    JSON->new->utf8->pretty->encode($ref)
+    JSON->new->utf8->canonical->pretty->encode($ref)
 
 =head2 decode_json
 
 This method behaves the same as L<JSON/decode_json>.
+
+=head1 DEPRECIATED METHODS
 
 =head2 to_json (depreciated)
 
@@ -99,6 +101,6 @@ package autobox::JSON::Ref;
 require JSON;
 sub to_json { JSON::to_json(shift); }
 sub encode_json { JSON::encode_json(shift); }
-sub encode_json_pretty { JSON->new->utf8->pretty->encode(shift); }
+sub encode_json_pretty { JSON->new->utf8->canonical->pretty->encode(shift); }
 
 1;
