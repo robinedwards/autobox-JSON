@@ -7,11 +7,11 @@ perl:
 
 matrix:
    include:
-      - perl: "5.17.10"
+      - perl: "5.18"
         env:
-           - BREWVER="5.17.10"
-   allow_failures:
-      - perl: "5.17.10"
+           - BREWVER="5.18.0"
+   #allow_failures:
+      #- perl: "5.17.10"
 
 before_install:
     - test "$BREWVER" = "" || perlbrew install -j4 $BREWVER
