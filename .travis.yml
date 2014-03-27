@@ -1,27 +1,19 @@
 language: perl
 perl:
+   - "5.8"
    - "5.10"
    - "5.12"
    - "5.14"
    - "5.16"
-
-matrix:
-   include:
-      - perl: "5.18"
-        env:
-           - BREWVER="5.18.0"
-   #allow_failures:
-      #- perl: "5.17.10"
-
-before_install:
-    - test "$BREWVER" = "" || perlbrew install -j4 $BREWVER
-    - test "$BREWVER" = "" || perlbrew switch $BREWVER
-    - test "$BREWVER" = "" || perl -v
+   - "5.18"
 
 install:
    # git bits sometimes needed...
    - git config user.name 'Travis-CI'
    - git config user.email 'travis@nowhere.dne'
+
+   # avoid dzil iff our perl < v5.10
+   - perl -e '$^V lt v5.10' && { cpanm --installdeps . ; exit 0 ; }
 
    # Deal with all of the DZIL dependancies, quickly and quietly
    - cpanm --force --verbose Directory::Scratch
@@ -35,4 +27,4 @@ install:
 
 script:
    - export DZSIGN=archive
-   - dzil smoke --release --author
+   - if `perl -e '$^V lt v5.10'` ; then prove -lr t/` ; else dzil test --all ; fi
