@@ -4,11 +4,10 @@ use Test::More;
 require_ok 'autobox::JSON';
 use autobox::JSON;
 
-is {name => 'Jim', age => 46}->encode_json, '{"name":"Jim","age":46}', "hash to json";
-
 my $hash = { name => 'Jim', age => 46};
-
-is $hash->encode_json, '{"name":"Jim","age":46}', "hash to json";
+my $str = $hash->encode_json;
+ok $str eq '{"name":"Jim","age":46}' || $str eq '{"age":46,"name":"Jim"}',
+    'hash to json';
 
 my $pretty = $hash->encode_json_pretty;
 ok
@@ -38,8 +37,6 @@ is_deeply q|{"name":"Jim","age":46}|->decode_json,
 
 is_deeply '{"name":"Jim","age":46}'->decode_json,
     {name => 'Jim', age => 46}, "string to json";
-
-my $str = '{"name":"Jim","age":46}';
 
 is_deeply $str->decode_json, {name => 'Jim', age => 46}, "string to json";
 
