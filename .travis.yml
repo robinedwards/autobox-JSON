@@ -1,30 +1,34 @@
+sudo: false
+addons:
+  apt:
+    packages:
+      - aspell
+      - aspell-en
 language: perl
 perl:
-   - "5.8"
-   - "5.10"
-   - "5.12"
-   - "5.14"
-   - "5.16"
-   - "5.18"
-
-install:
-   # git bits sometimes needed...
-   - git config user.name 'Travis-CI'
-   - git config user.email 'travis@nowhere.dne'
-
-   # avoid dzil iff our perl < v5.10
-   - perl -e '$^V lt v5.10' && { cpanm --installdeps . ; exit 0 ; }
-
-   # Deal with all of the DZIL dependancies, quickly and quietly
-   - cpanm --force --verbose Directory::Scratch
-   - cpanm --quiet --notest Dist::Zilla
-   - dzil authordeps | cpanm --quiet --notest
-   # for DZP LinkCheck
-   - cpanp x
-
-   - export AUTOMATED_TESTING=1 HARNESS_OPTIONS=j10:c HARNESS_TIMER=1
-   - dzil listdeps | cpanm --verbose
-
-script:
-   - export DZSIGN=archive
-   - if `perl -e '$^V lt v5.10'` ; then prove -lr t/` ; else dzil test --all ; fi
+  - "5.8"
+  - "5.10"
+  - "5.12"
+  - "5.14"
+  - "5.16"
+  - "5.18"
+  - "5.20"
+  - "5.22"
+  - "5.24"
+  - "dev"
+env:
+  global:
+    - COVERAGE=1
+cache:
+  directories:
+    - $HOME/perl5/perlbrew/perls/$TRAVIS_PERL_VERSION/bin/
+    - $HOME/perl5/perlbrew/perls/$TRAVIS_PERL_VERSION/lib/site_perl/
+before_cache:
+    - perlbrew list
+    - set | grep -a 'PERL.*='
+matrix:
+  allow_failures:
+    - perl: dev
+before_install:
+  - cpanp x
+  - eval $(curl https://travis-perl.github.io/init) --auto
